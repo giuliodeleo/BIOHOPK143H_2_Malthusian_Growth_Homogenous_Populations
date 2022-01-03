@@ -35,7 +35,6 @@ Let's try to analyze this problem by using a simple demographic model of
 a *semelparous*, asexual organism (so we do not have to deal with sex
 ratio).
 
-
 ## Assumptions
 
 We are going to make the following assumptions/definitions:
@@ -51,8 +50,7 @@ We are going to make the following assumptions/definitions:
 
 -   For offspring larger than ${\gamma}$ [grams], chance of survival
     until maturity is an increasing and saturating function of body size
-    $x$, as described by the following function: 
-    $$
+    $x$, as described by the following function: $$
           {\sigma} (x) = {\alpha} \cdot \frac{x - {\gamma}}{1+{\beta} * (x - {\gamma})}
     $$
 
@@ -97,40 +95,42 @@ body mass of offspring and the corresponding number of offspring
 
 ## Qualitative solution
 
-Say $N_k$ the number of adult individuals in generation $k$. 
+Say $N_k$ the number of adult individuals in generation $k$.
 
-If $x$ is offspring's mean body size, the total number of offspring generated is equal to:
-$$
+If $x$ is offspring's mean body size, the total number of offspring
+generated is equal to: $$
     Offspring_k = \frac{\delta}{x} \cdot N_k
-$$
-the number of offspring that survival to become reproductive adult in the generation $k+1$ is this equal to:
+$$ the number of offspring that survival to become reproductive adult in
+the generation $k+1$ is this equal to:
 
 $$
     N_{k+1} = \sigma(x) \cdot Offspring_k 
-$$
-Therefore:
-$$
+$$ Therefore: $$
     N_{k+1} = \sigma(x) \cdot \frac{\delta}{x} \cdot N_k
 $$
 
-and thus, the finite growth rate of the population is equal to: 
+and thus, the finite growth rate of the population is equal to:
 
 $$
     \lambda(x) = \sigma(x) \cdot \frac{\delta}{x}
 $$
 
-Therefore, the finite groth rate $\lambda$ is the product of two functions, $\sigma(x)$, which is an increasing and saturating function of body size $x$, and: 
-$$
+Therefore, the finite groth rate $\lambda$ is the product of two
+functions, $\sigma(x)$, which is an increasing and saturating function
+of body size $x$, and: $$
 \frac{\delta}{x}
-$$ 
-which is a (hyperbolic) decreasing function of body size $x$.
+$$ which is a (hyperbolic) decreasing function of body size $x$.
 
+Note that $\lambda$ is equal to zero when $x \leq 1$ and it go to $0$
+for $x \rightarrow \infty$, it is the product of two positive function
+for $x>1$. Therefore, $\lambda$ is an humped function, which increases
+with $x$, reaches a maximum and then decreases for larger values of body
+size $x$. We thus expect that there is a value of $x$ that maximize the
+finite growth rate.
 
-Note that $\lambda$ is equal to zero when $x \leq 1$ and it go to $0$ for $x 	\rightarrow \infty$, it is the product of two positive function for $x>1$. Therefore, $\lambda$ is an humped function, which increases with $x$, reaches a maximum and then decreases for larger values of body size $x$. We thus expect that there is a value of $x$ that maximize the finite growth rate.
-
-
-Let's find this value, first graphically (by plotting the function $\lambda$), then numerically (and, if you want, you can try to find the analytic solution).
-
+Let's find this value, first graphically (by plotting the function
+$\lambda$), then numerically (and, if you want, you can try to find the
+analytic solution).
 
 ## Graphical solution
 
@@ -143,7 +143,9 @@ beta  <- 0.25
 delta <- 30
 ```
 
-We could easily set a value to body size $x$ and compute the fraction $\sigma$ of offspring of body size $x$ surviving to maturity, for instance:
+We could easily set a value to body size $x$ and compute the fraction
+$\sigma$ of offspring of body size $x$ surviving to maturity, for
+instance:
 
 ```{r }
 x  <- 4 * gamma; x  
@@ -163,18 +165,18 @@ therefore, the fine growth rate is
 (delta/x) * sigma5
 ```
 
-
-Of course, this is not a really efficient use of R. We can set a range of values of body size $x$, between, say, 0 and 10 times $\gamma$ (we could go higher, up to 30 gram, but as we will see, this is more than enough)
-
-
+Of course, this is not a really efficient use of R. We can set a range
+of values of body size $x$, between, say, 0 and 10 times $\gamma$ (we
+could go higher, up to 30 gram, but as we will see, this is more than
+enough)
 
 ```{r }
 size <- seq(gamma/100, 10 * gamma, by = gamma/100) # we do not start from zero
 head(size)  # check the last elements of this vector  
 ```
 
-
-and then we can define a function to compute sigma ($\sigma(x)$) as function of body size $x$, namely:
+and then we can define a function to compute sigma ($\sigma(x)$) as
+function of body size $x$, namely:
 
 ```{r }
 f.sigma <-  function(x) {
@@ -196,7 +198,8 @@ plot(sigma ~ size, type="l", cex=0.5, xlim=c(0,max(size)), xlab = 'body size x [
 abline(v=gamma, lty = 3) 
 ```
 
-Now, let's compute the average number of offspring with body size $x$ and plot is on semi-log scale:
+Now, let's compute the average number of offspring with body size $x$
+and plot is on semi-log scale:
 
 ```{r }
 f.offspring.no  <-  function (x) delta/x  
@@ -206,7 +209,11 @@ offspring.no  <- f.offspring.no(size); head(offspring.no)
 plot(offspring.no ~ size, cex=0.5, type="l", log = 'y')
 ```
 
-Now, we can finally compute the finite growth rate $\lambda$ as product of number of offspring on body size $x$ and their survival $\sigma$ to reproduction, which in r is particularly easy to do, as the multiplication operator "*" multiply the two vectors element by element, that is:
+Now, we can finally compute the finite growth rate $\lambda$ as product
+of number of offspring on body size $x$ and their survival $\sigma$ to
+reproduction, which in r is particularly easy to do, as the
+multiplication operator "\*" multiply the two vectors element by
+element, that is:
 
 ```{r }
 lambda <- offspring.no * sigma  
@@ -219,9 +226,11 @@ plot(lambda ~ size, cex=0.5, type="l")
 abline(h=1, lty = 3) # add a horizontal line for lambda=1 (by the way, why lambda=1?)
 ```
 
-Therefore, we can see that $\lambda$ is indeed an unimodal function of body size $x$ with a maximum for a body size between 2.5 and 3.5 
+Therefore, we can see that $\lambda$ is indeed an unimodal function of
+body size $x$ with a maximum for a body size between 2.5 and 3.5
 
-We can find numerically the value of $x$ that maximizes $\lambda$ as follows:
+We can find numerically the value of $x$ that maximizes $\lambda$ as
+follows:
 
 ```{r }
 size[which(lambda == max(lambda))] 
@@ -229,9 +238,14 @@ size[which(lambda == max(lambda))]
 
 ## Analytic solution
 
-Note that this value is probably the right one (as we designed the exercise so that $\lambda$ is maximum for $x=3$). Yet, this result depends upon how finely we set the vector *size* of body sizes with  R's *seq()* function
+Note that this value is probably the right one (as we designed the
+exercise so that $\lambda$ is maximum for $x=3$). Yet, this result
+depends upon how finely we set the vector *size* of body sizes with R's
+*seq()* function
 
-We can derive analytically the optimal body size by noting that when $\lambda$ reaches its maximum value, there its first derivative is equal to zero by definition.
+We can derive analytically the optimal body size by noting that when
+$\lambda$ reaches its maximum value, there its first derivative is equal
+to zero by definition.
 
 Therefore, we should find the value of $x$ for which:
 
@@ -239,22 +253,16 @@ $$
  \frac{d{\lambda(x)}}{dx} \equiv  0
 $$
 
-As $\lambda(x) = \sigma(x) \cdot Offspring(x)$ (actually, let's rename $G(x) \equiv Offspring(x)$, this means:
-
+As $\lambda(x) = \sigma(x) \cdot Offspring(x)$ (actually, let's rename
+$G(x) \equiv Offspring(x)$, this means:
 
 $$
  \frac{d{\lambda(x)}}{dx} = \frac{d{\sigma(x) \cdot G(x)} }{dx} = \frac{d{\sigma(x)} }{dx} \cdot G(x) + \sigma(x) \cdot \frac{d{G(x)} }{dx} \equiv  0
-$$
-or also:
-$$
+$$ or also: $$
 {\alpha} \frac{1 + \beta (x - \gamma) - (x - \gamma) \beta}{(1 + \beta(x - \gamma))^2} \cdot \frac{\delta}{x} + \alpha \frac{x - \gamma}{1+\beta * (x - \gamma)} \cdot  \left( -\frac{\delta}{x^2} \right)  \equiv  0
-$$
-which can be simplified to:
-$$
+$$ which can be simplified to: $$
  {\beta}(x - \gamma)^2 = \gamma
-$$
-and, thus, the optimal body size is:
-$$
+$$ and, thus, the optimal body size is: $$
  x_0 = \gamma + \sqrt{\frac{\gamma}{\beta}}
 $$
 
@@ -268,12 +276,15 @@ x.opt = gamma + sqrt(gamma/beta); x.opt
 
 ## Using R for sybolic calculation
 
-In case you might not remember all the derivative rules, R can help you by doing symbolic calculation, and here below we will show you how.
+In case you might not remember all the derivative rules, R can help you
+by doing symbolic calculation, and here below we will show you how.
 
+Specifically, we will make R to compute the derivative of lambda with
+respect to body size and then use *uniroot()* to find where the
+derivative is equal to zero.
 
-Specifically, we will make R to compute the derivative of lambda with respect to body size and then use *uniroot()* to find where the derivative is equal to zero. 
-
-First we transform the function to compute $\lambda$ to a "text expression" in R, namely:
+First we transform the function to compute $\lambda$ to a "text
+expression" in R, namely:
 
 ```{r }
 lambda.expr <- expression(alpha*((x-gamma)/(1+beta*(x-gamma)))*delta/x)
@@ -288,22 +299,24 @@ lambda.der <- D(lambda.expr, "x")
 lambda.der
 ```
 
-The result is a text expression as well, so we need to tell R to *evaluate* it for
-any value of model parameters and for the specific value of body size, namely:
+The result is a text expression as well, so we need to tell R to
+*evaluate* it for any value of model parameters and for the specific
+value of body size, namely:
 
 ```{r }
 f.lambda.der = function(x) eval(lambda.der) 
 f.lambda.der
 ```
 
-Let's see whether the numerical derivative is indeed quite close to zero:
+Let's see whether the numerical derivative is indeed quite close to
+zero:
 
 ```{r }
 f.lambda.der(x.opt)
 ```
 
-
-Let's compute and then plot the derivative of $\lambda$ as a function of body size $x$
+Let's compute and then plot the derivative of $\lambda$ as a function of
+body size $x$
 
 ```{r }
 lambda.der.v = sapply(size, f.lambda.der)
@@ -343,9 +356,12 @@ mtext("Lambda", side = 4, line=6)
 abline(v=x.opt, col="black", lty=2)
 ```
 
-
 ## Find optimal body size by using R's uniroot() function
-Lastly, I just want to note that in case we were unable to derive the analytic solution, we could still find the solution numerically by using R's *uniroot()* function to find the value of $x$ for which the derivative of $\lambda$ is equal to zero, namely:
+
+Lastly, I just want to note that in case we were unable to derive the
+analytic solution, we could still find the solution numerically by using
+R's *uniroot()* function to find the value of $x$ for which the
+derivative of $\lambda$ is equal to zero, namely:
 
 ```{r }
 obs <- uniroot(f.lambda.der, c(gamma, 10*gamma), tol = 10^-12)  
