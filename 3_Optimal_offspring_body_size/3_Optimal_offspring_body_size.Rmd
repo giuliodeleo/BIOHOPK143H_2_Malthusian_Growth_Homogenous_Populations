@@ -35,6 +35,10 @@ Let's try to analyze this problem by using a simple demographic model of
 a *semelparous*, asexual organism (so we do not have to deal with sex
 ratio).
 
+![](Many_smaller_or_fewer_Larger.png){width=50%}
+
+
+
 ## Assumptions
 
 We are going to make the following assumptions/definitions:
@@ -69,23 +73,23 @@ Assuming that:
 
 -   $\beta = 0.25$ [grams^-1^]
 
-compute numerically (and, if you are able, analytically) the optimal
-body mass of offspring and the corresponding number of offspring
+**compute numerically (and, if you are able, analytically) the optimal
+body mass of offspring and the corresponding number of offspring**
 
 ## Hint:
 
--   First, let's learn how to draw the qualitative graph of the survival
-    function as a function of offspring body mass $x$.
+-   First, draw qualitatively (by hand on paper!) the graph of survival $\sigma(x)$
+    as a function of offspring size $x$.
 -   Then, derive and draw the qualitative graph of the population finite
     growth rate as a function of body mass $x$.
--   Use R (or Excel or any other program!) to plot the graphs of
+-   We will then use R to *plot* the graphs of
     $\sigma$ and $\lambda$ as a function of $x$
--   Identify visually (or numerically) the optimal offspring body weight
-    $x_opt$.
--   Explore which of the 4 parameters (alpha, beta, gamma, delta) has
-    the most influence on $x_opt$.
+-   We will find (visually, numerically and analytically) the optimal offspring body weight
+    $x_{opt}$.
+-   You will explore which of the 4 parameters (alpha, beta, gamma, delta) has
+    the most influence on $x_{opt}$.
 
-![](Many_smaller_or_fewer_Larger.png)
+
 
 ============================================================
 
@@ -272,9 +276,9 @@ Therefore,
 x.opt = gamma + sqrt(gamma/beta); x.opt
 ```
 
-# Minor additions
+# some minor (but cool) addition
 
-## Using R for sybolic calculation
+## Using R for symbolic calculation
 
 In case you might not remember all the derivative rules, R can help you
 by doing symbolic calculation, and here below we will show you how.
@@ -367,3 +371,6 @@ derivative of $\lambda$ is equal to zero, namely:
 obs <- uniroot(f.lambda.der, c(gamma, 10*gamma), tol = 10^-12)  
 opt.body.size = obs[1];opt.body.size 		
 ```
+# Asssignment
+-   Discuss the relationship between optimal body size $x_{opt}$ and $\gamma$ and $\beta$. 
+-   In terms of life history traits, what is the meaning/your interpretation of these relationships?  
