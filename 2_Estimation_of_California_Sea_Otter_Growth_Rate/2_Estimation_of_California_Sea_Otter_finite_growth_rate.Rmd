@@ -2,9 +2,11 @@
 title: "Estimation of California Sea Otter's finite rate of growth"
 author: "Giulio A. De Leo"
 date: "12/26/2021"
-output: 
+output:
   pdf_document:
     df_print: kable
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -46,13 +48,8 @@ For the sake of this exercise, we will use the data on population size from 1914
 
 ## Exercise
 
-Let's start to upload the time series. We assume that the data file is in the same folder of the RMarkdown document and set the working directory with *setwd()* accordingly:
 
-```{r}
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path)); getwd()
-```
-
-Now, let's read the fil and, as it is a short one, just print screen its content:
+Let's read the file and, as it is a short one, just print screen its content:
 
 ```{r}
 df = as.data.frame(read.table("data/California_Sea_otters.csv", sep=",", header=T, na.string="-9.99"))
@@ -130,9 +127,11 @@ confint(LogModel, 'year', level=0.95)
 lambda <- exp(igr); lambda
 ```
 
+Here we create a new data frame to plot the results
+
 ```{r}
 
-temp.mat <-  predict(LogModel, newdata = df, interval = "confidence"); temp.mat
+temp.mat <-  predict(LogModel, newdata = df, interval = "confidence"); as.data.frame(temp.mat)
 conf.int <-  data.frame(year = df$year, abundance = df$abundance, fit = exp(fitted(LogModel)), 
                         lwr = exp(temp.mat[,'lwr']), upr = exp(temp.mat[,'upr']) ); conf.int
 
@@ -155,6 +154,10 @@ Now, compute the number of years this population took to double in size
 
 ## Assignment
 
-Estimate population growth rate for the grayseal puppy abundance in Sable island, use the file: \* Grey_seal_puppy_production_Sable_Island_time_trend_data.csv
+Estimate population growth rate for the grayseal puppy abundance in Sable island, use the following file in the "data" folder:
 
-Likewse for the loggerhead turtle population in the Great Barrier Reef in Australia, use the file: \* australian_gbr_Loggerhead_sea_turtle_data.csv
+-    Grey_seal_puppy_production_Sable_Island_time_trend_data.csv
+
+Likewise for the loggerhead turtle population in the Great Barrier Reef in Australia, use the following file in the "data" folder:
+
+-    australian_gbr_Loggerhead_sea_turtle_data.csv
