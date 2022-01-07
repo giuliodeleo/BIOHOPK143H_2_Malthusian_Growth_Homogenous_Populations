@@ -48,11 +48,10 @@ For the sake of this exercise, we will use the data on population size from 1914
 
 ## Exercise
 
-
 Let's read the file and, as it is a short one, just print screen its content:
 
 ```{r}
-df = as.data.frame(read.table("data/California_Sea_otters.csv", sep=",", header=T, na.string="-9.99"))
+df = as.data.frame(read.table("data/australian_gbr_Loggerhead_sea_turtle_data.csv", sep=",", header=T, na.string="-9.99"))
 head(df)
 ```
 
@@ -152,12 +151,12 @@ Now, compute the number of years this population took to double in size
 
 ```
 
-## Assignment
+## Home assignment
 
 Estimate population growth rate for the grayseal puppy abundance in Sable island, use the following file in the "data" folder:
 
--    Grey_seal_puppy_production_Sable_Island_time_trend_data.csv
+-   Grey_seal_puppy_production_Sable_Island_time_trend_data.csv
 
 Likewise for the loggerhead turtle population in the Great Barrier Reef in Australia, use the following file in the "data" folder:
 
--    australian_gbr_Loggerhead_sea_turtle_data.csv
+-   australian_gbr_Loggerhead_sea_turtle_data.csv
